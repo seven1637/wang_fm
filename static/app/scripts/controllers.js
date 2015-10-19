@@ -111,6 +111,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
                 $scope.musics = MusicList.query({arg: defaultKey + '/', num: 10}, function(data) {
                     // console.log(data);
                     playMusic(data[randTenIndex]);
+                    musicKey = data[randTenIndex].key;
                 });
             });
         }
@@ -126,6 +127,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
                 // console.info('playMusic');
                 //否则继续播放下一首歌曲
                 playMusic($scope.musics[randTenIndex]);
+                musicKey = $scope.musics[randTenIndex].key;
             }
         }
 
@@ -174,6 +176,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
             } else {
                 //否则继续播放下一首歌曲
                 playMusic($scope.musics[randTenIndex]);
+                musicKey = $scope.musics[randTenIndex].key;
             }
         }
 
@@ -182,6 +185,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
             // console.info(index);
             randTenIndex = index;
             playMusic($scope.musics[index]);
+            musicKey = $scope.musics[index].key;
         }
 
          //点击分类列表，随机播放该类十首歌曲
@@ -193,6 +197,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
             randTenIndex = 0;
             $scope.musics = MusicList.query({arg: defaultKey + '/', num: 10}, function(data) {
                 playMusic(data[0]);
+                musicKey = data[0].key;
             });
         }
 
@@ -202,7 +207,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
             var trashSrc = ['/static/app/images/trash2.png', '/static/app/images/trash.png'];
             var postData = {
                 'op': 'dislike',
-                'key': defaultKey
+                'key': musicKey
             };
             var jpTrash = $('jp-trash img');
             if (true) {
@@ -219,7 +224,7 @@ function FMCtrl($scope, $http, MusicList, Music, User) {
             var favorSrc = ['/static/app/images/favorote2.png', '/static/app/images/favorite.png'];
             var postData = {
                 'op': 'favor',
-                'key': defaultKey
+                'key': musicKey
             };
             $http.post('/api/user/current/history/', postData).success(function (data) {
                 console.log('like');
